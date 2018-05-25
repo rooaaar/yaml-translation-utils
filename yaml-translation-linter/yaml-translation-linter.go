@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	"flag"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -10,44 +10,43 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+var refPath string
+var traPath string
+
+func init() {
+	flag.StringVar(&refPath, "ref", "", "reference file path")
+	flag.StringVar(&traPath, "tra", "", "translation file path")
+}
+
 func main() {
-	refData := readFile("en.yml")
-	traData := readFile("fa.yml")
+	flag.Parse()
 
-	var ref interface{}
-	var tra interface{}
-
-	if err := yaml.Unmarshal(refData, &ref); err != nil {
-		log.Fatal(err)
+	if refPath == "" {
+		log.Fatal("reference file not defined.")
 	}
 
-	if err := yaml.Unmarshal(traData, &tra); err != nil {
-		log.Fatal(err)
+	if traPath == "" {
+		log.Fatal("translation file not defined.")
 	}
+
+	ref := readYamlFile(refPath)
+	tra := readYamlFile(traPath)
 
 	if err := checkKeys(ref, tra, ""); err != nil {
 		log.Fatal(err)
 	}
-
-	// for k, v := range ref {
-	// 	fmt.Printf("key[%s] value[%s]\n", k, v)
-	// }
-
-	// refLines := strings.Split(ref, "\n")
-	// traLines := strings.Split(tra, "\n")
-
-	// if len(refLines) != len(traLines) {
-	// 	log.Fatal("translation lines (" + strconv.Itoa(len(traLines)) + ") are not equal to reference lines (" + strconv.Itoa(len(refLines)) + ").")
-	// }
-
-	// fmt.Println(tra)
-	fmt.Println("ok")
 }
 
-func readFile(file string) []byte {
-	data, err := ioutil.ReadFile(file)
+func readYamlFile(file string) interface{} {
+	bytes, err := ioutil.ReadFile(file)
 
 	if err != nil {
+		log.Fatal(err)
+	}
+
+	var data interface{}
+
+	if err := yaml.Unmarshal(bytes, &data); err != nil {
 		log.Fatal(err)
 	}
 
