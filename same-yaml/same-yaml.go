@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/sijad/yamlutils"
+	"github.com/sijad/yaml-translation-utils/yamlutils"
 	"gopkg.in/yaml.v2"
 )
 
