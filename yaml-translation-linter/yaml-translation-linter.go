@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 )
@@ -64,28 +65,32 @@ func checkKeys(ref interface{}, tra interface{}, parentPath string) error {
 
 	if ok {
 		if traMap, ok := tra.(map[interface{}]interface{}); ok {
+			var errs []string
 			for key, val := range refMap {
 				path := parentPath + "." + key.(string)
 				if _, ok := traMap[key]; !ok {
-					return errors.New("cannot find '" + path + "' in translations")
-				}
-				if err := checkKeys(val, traMap[key], path); err != nil {
-					return err
+					errs = append(errs, "cannot find '"+path+"' in translations")
+				} else if err := checkKeys(val, traMap[key], path); err != nil {
+					errs = append(errs, err.Error())
 				}
 			}
 
 			for key := range traMap {
 				if _, ok := refMap[key]; !ok {
 					path := parentPath + "." + key.(string)
-					return errors.New("find redunant translation '" + path + "'")
+					errs = append(errs, "found redunant translation '"+path+"'")
 				}
+			}
+
+			if len(errs) > 0 {
+				return errors.New(strings.Join(errs, "\n"))
 			}
 
 			return nil
 		}
 
-		return errors.New("cannot convert translation to map")
+		return errors.New("cannot convert translation to map: " + parentPath)
 	}
 
-	return errors.New("cannot convert reference to map")
+	return errors.New("cannot convert reference to map: " + parentPath)
 }

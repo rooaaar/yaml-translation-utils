@@ -139,7 +139,7 @@ func TestCheckReduantsKeys(t *testing.T) {
 				"key":  "val",
 				"key2": "val",
 			},
-			"find redunant translation '.key2'",
+			"found redunant translation '.key2'",
 		},
 		{
 			map[interface{}]interface{}{
@@ -151,7 +151,7 @@ func TestCheckReduantsKeys(t *testing.T) {
 				"key":  "val",
 				"key2": "val",
 			},
-			"find redunant translation '.key3'",
+			"found redunant translation '.key3'",
 		},
 		{
 			map[interface{}]interface{}{
@@ -169,7 +169,7 @@ func TestCheckReduantsKeys(t *testing.T) {
 					"sub key 3": "sub val 2",
 				},
 			},
-			"find redunant translation '.key.sub key 3'",
+			"found redunant translation '.key.sub key 3'",
 		},
 		{
 			map[interface{}]interface{}{
@@ -193,7 +193,7 @@ func TestCheckReduantsKeys(t *testing.T) {
 				},
 				"key2": "val1",
 			},
-			"find redunant translation '.key.sub key 2.sub sub key 3'",
+			"found redunant translation '.key.sub key 2.sub sub key 3'",
 		},
 	}
 
