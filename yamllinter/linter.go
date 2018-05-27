@@ -101,7 +101,7 @@ func getKeyErrors(key string) (errs []yamlErrorCode) {
 
 func isAlphaUnderline(s string) bool {
 	for _, r := range s {
-		if (r < 'a' || r > 'z') && (r < 'A' || r > 'Z') && r != '_' {
+		if (r < 'a' || r > 'z') && (r < 'A' || r > 'Z') && r != '_' && r != '-' {
 			return false
 		}
 	}
