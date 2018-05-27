@@ -208,19 +208,7 @@ func TestKeyErrors(t *testing.T) {
 		{
 			"a.b: a.b",
 			[]yamlError{
-				yamlError{notAlphaDashUnderline, []string{"a.b"}},
-			},
-		},
-		{
-			"a-b: a-b",
-			[]yamlError{
-				yamlError{notAlphaDashUnderline, []string{"a-b"}},
-			},
-		},
-		{
-			"a1: a1",
-			[]yamlError{
-				yamlError{notAlphaDashUnderline, []string{"a1"}},
+				yamlError{notAlphaNumericDashUnderline, []string{"a.b"}},
 			},
 		},
 		{
@@ -230,8 +218,6 @@ b1: b1
 XX: XX
 `,
 			[]yamlError{
-				yamlError{notAlphaDashUnderline, []string{"a1"}},
-				yamlError{notAlphaDashUnderline, []string{"b1"}},
 				yamlError{notSorted, []string{"XX"}},
 				yamlError{notLower, []string{"XX"}},
 			},
@@ -243,8 +229,8 @@ a:
   a.a: a.a
 `,
 			[]yamlError{
-				yamlError{notAlphaDashUnderline, []string{"a", "a.1"}},
-				yamlError{notAlphaDashUnderline, []string{"a", "a.a"}},
+				yamlError{notAlphaNumericDashUnderline, []string{"a", "a.1"}},
+				yamlError{notAlphaNumericDashUnderline, []string{"a", "a.a"}},
 			},
 		},
 		{
