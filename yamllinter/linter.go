@@ -41,9 +41,12 @@ func main() {
 	logger := log.New(os.Stderr, "", 0)
 	errs := lint(readYamlFile(filePath))
 
-	for _, err := range errs {
-		path := strings.Join(err.Path, ".")
-		logger.Printf("%s: %s", path, err.Err)
+	if errs != nil {
+		for _, err := range errs {
+			path := strings.Join(err.Path, ".")
+			logger.Printf("%s: %s", path, err.Err)
+		}
+		log.Fatalln("linter faild.")
 	}
 }
 
