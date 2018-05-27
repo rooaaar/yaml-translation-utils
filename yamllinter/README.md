@@ -4,7 +4,7 @@ this tool will check yaml file to make sure:
 
 * all keys sorted alphabetically
 * all keys are in lower case
-* all key only contains letter and `_`
+* all key only contains letter, number, `-` and `_`
 
 ## Installation
 
