@@ -13,9 +13,9 @@ import (
 type yamlErrorCode string
 
 const (
-	notSorted         yamlErrorCode = "should be sorted alphabetically"
-	notLower                        = "key should be in lowercase"
-	notAlphaUnderline               = "key should only contain letters and underline."
+	notSorted             yamlErrorCode = "should be sorted alphabetically"
+	notLower                            = "key should be in lowercase"
+	notAlphaDashUnderline               = "key should only contain letters, dash and underline"
 )
 
 type yamlError struct {
@@ -93,7 +93,7 @@ func getKeyErrors(key string) (errs []yamlErrorCode) {
 	}
 
 	if !isAlphaUnderline(key) {
-		errs = append(errs, notAlphaUnderline)
+		errs = append(errs, notAlphaDashUnderline)
 	}
 
 	return
