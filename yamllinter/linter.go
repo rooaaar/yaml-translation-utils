@@ -61,27 +61,26 @@ func getNodeErrors(node yaml.MapSlice, path []string, level int) (errs []yamlErr
 	for _, kv := range node {
 
 		key := kv.Key.(string)
-		keyPath := append(path, key)
 
 		if level >= alphaBeticLevel {
-			if (len(lastKey) > 0 && key < lastKey) || (len(biggestKey) > 0 && key < biggestKey) {
-				errs = append(errs, newError(notSorted, keyPath))
-			}
-
 			if key > biggestKey {
 				biggestKey = key
+			}
+
+			if key < lastKey || key < biggestKey {
+				errs = append(errs, newError(notSorted, append(path, key)))
 			}
 
 			lastKey = key
 		}
 
 		for _, err := range getKeyErrors(key) {
-			errs = append(errs, newError(err, keyPath))
+			errs = append(errs, newError(err, append(path, key)))
 		}
 
 		// check inner keys if any.
 		if nextNode, ok := kv.Value.(yaml.MapSlice); ok {
-			if nextErrs := getNodeErrors(nextNode, keyPath, level+1); nextErrs != nil {
+			if nextErrs := getNodeErrors(nextNode, append(path, key), level+1); nextErrs != nil {
 				errs = append(errs, nextErrs...)
 			}
 		}
