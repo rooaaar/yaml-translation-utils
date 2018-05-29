@@ -46,7 +46,7 @@ func main() {
 			path := strings.Join(err.Path, ".")
 			logger.Printf("%s: %s", path, err.Err)
 		}
-		log.Fatalln("linter faild.")
+		os.Exit(1)
 	}
 }
 
