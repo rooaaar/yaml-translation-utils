@@ -14,7 +14,6 @@ type yamlErrorCode string
 
 const (
 	notSorted                    yamlErrorCode = "should be sorted alphabetically"
-	notLower                                   = "key should be in lowercase"
 	notAlphaNumericDashUnderline               = "key should only contain letters, numbers, dash and underline"
 )
 
@@ -90,10 +89,6 @@ func getNodeErrors(node yaml.MapSlice, path []string, level int) (errs []yamlErr
 }
 
 func getKeyErrors(key string) (errs []yamlErrorCode) {
-	if strings.ToLower(key) != key {
-		errs = append(errs, notLower)
-	}
-
 	if !isAlphaUnderline(key) {
 		errs = append(errs, notAlphaNumericDashUnderline)
 	}
